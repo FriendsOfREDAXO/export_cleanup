@@ -1,0 +1,10 @@
+package: export_cleanup
+version: '0.2'
+author: 'Matthias Weiß'
+supportpage: www.redaxo.org/de/forum/
+
+requires:
+    packages:
+        backup: '^2.0.3'
+        cronjob: '^2.1.0'
+    redaxo: '^5.1.0'
