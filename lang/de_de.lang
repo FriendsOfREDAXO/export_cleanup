@@ -1,0 +1,25 @@
+export_cleanup_title = Export Cleanup
+export_cleanup_filename_contains = Dateiname enthält
+export_cleanup_filename_contains_notice = Auf Dateien die einen entsprechenden String enthalten beschränken (optional)
+
+
+export_cleanup_deleted = gelöscht
+export_cleanup_nothing_to_delete = nichts zu löschen
+
+export_cleanup_opt_ign = ignorieren / überspringen
+
+export_cleanup_label_p_h = nach Stunde
+export_cleanup_p_h_sing = ein Backup pro Stunde behalten, das älter als eine Stunde ist
+export_cleanup_p_h_plur = ein Backup pro Stunde behalten, das älter als %n Stunden ist
+
+export_cleanup_label_p_d = nach Tag
+export_cleanup_p_d_sing = ein Backup pro Tag behalten, das älter als ein Tag ist
+export_cleanup_p_d_plur = ein Backup pro Tag behalten, das älter als %n Tage ist
+
+export_cleanup_label_p_m = nach Monat
+export_cleanup_p_m_sing = ein Backup pro Monat behalten, das älter als ein Monat ist
+export_cleanup_p_m_plur = ein Backup pro Monat behalten, das älter als %n Monate ist
+
+export_cleanup_label_p_y = nach Jahr
+export_cleanup_p_y_sing = ein Backup pro Jahr behalten, das älter als ein Jahr ist
+export_cleanup_p_y_plur = ein Backup pro Jahr behalten, das älter als %n Jahre ist
