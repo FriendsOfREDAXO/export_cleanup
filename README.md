@@ -1,5 +1,5 @@
-Export Cleanup AddOn für Redaxo 5
-=================================
+Export Cleanup AddOn für Redaxo 5 (BETA)
+========================================
 
 Benötigt folgende AddOns
 - backup > 2.0.3
