@@ -1,6 +1,3 @@
-# export_cleanup
-Erweiterung für cronjob+backup um ältere Exporte dynamisch zu löschen
-
 Export Cleanup AddOn für Redaxo 5
 =================================
 
