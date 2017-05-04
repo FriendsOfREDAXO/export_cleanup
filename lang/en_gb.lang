@@ -1,0 +1,25 @@
+export_cleanup_title = Export Cleanup
+export_cleanup_filename_contains = Filename contains
+export_cleanup_filename_contains_notice = Restrict to files containing a specific string (optional)
+
+
+export_cleanup_deleted = deleted
+export_cleanup_nothing_to_delete = nothing to delete
+
+export_cleanup_opt_ign = ignore / skip
+
+export_cleanup_label_p_h = per Hour
+export_cleanup_p_h_sing = keep one backup per hour older than 1 hour
+export_cleanup_p_h_plur = keep one backup per hour older than %n hours
+
+export_cleanup_label_p_d = per Day
+export_cleanup_p_d_sing = keep one backup per day older than 1 day
+export_cleanup_p_d_plur = keep one backup per day older than %n days
+
+export_cleanup_label_p_m = per Month
+export_cleanup_p_m_sing = keep one backup per month older than 1 month
+export_cleanup_p_m_plur = keep one backup per month older than %n months
+
+export_cleanup_label_p_y = per Year
+export_cleanup_p_y_sing = keep one backup per year older than 1 year
+export_cleanup_p_y_plur = keep one backup per year older than %n years
