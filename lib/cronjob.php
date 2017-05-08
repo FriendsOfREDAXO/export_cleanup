@@ -48,14 +48,14 @@ class rex_cronjob_export_cleanup extends rex_cronjob
     public function execute()
     {
 		
-	$time = time();
-	//$time = strtotime('+52 month +1 week + 2 day');
+		$time = time();
+		//$time = strtotime('+52 month +1 week + 2 day');
 
 		
-	$refTimeHour = strtotime(date('Y-m-d H:00',$time));
-	$refTimeDay = strtotime(date('Y-m-d',$time));
+		$refTimeHour = strtotime(date('Y-m-d H:00',$time));
+		$refTimeDay = strtotime(date('Y-m-d',$time));
 
-	$filenameContains = $this->getParam('filename_contains', "");
+		$filenameContains = $this->getParam('filename_contains', "");
 		
         $dir = rex_backup::getDir();
 
@@ -69,23 +69,23 @@ class rex_cronjob_export_cleanup extends rex_cronjob
 		        
 		        $dateDiff = $this->datediffCalc($filetime, $refTimeDay);
 		        
-		        $backupFilesToDelete[] = [	"file"		=> $backupFile,
-		        				"time"		=> $filetime,
-		        				"date"		=> date('Y-m-d H:i:s', $filetime),
-		        				"diff-h"	=> intval(($refTimeHour - $filetime) / 3600),
-		        				"diff-d"	=> intval(($refTimeDay - $filetime) / 86400),
-		        				"diff-m"	=> $dateDiff['m'] + $dateDiff['Y'] * 12,
-		        				"diff-y"	=> $dateDiff['Y'],
+		        $backupFilesToDelete[] = [	"file"			=> $backupFile,
+		        							"time"			=> $filetime,
+		        							"date"			=> date('Y-m-d H:i:s', $filetime),
+		        							"diff-h"		=> intval(($refTimeHour - $filetime) / 3600),
+		        							"diff-d"		=> intval(($refTimeDay - $filetime) / 86400),
+		        							"diff-m"		=> $dateDiff['m'] + $dateDiff['Y'] * 12,
+		        							"diff-y"		=> $dateDiff['Y'],
 		        						
-		        			];
+		        						];
 		    }
         	
         }
         
         // check files by filter and mark to delete
         
-        foreach (['h', 'd', 'm', 'y'] as $paramStr) { 
-
+        foreach (['y', 'm', 'd', 'h'] as $paramStr) { 
+			
 	        $keepParam = $this->getParam('keep_' . $paramStr , 0);
 	        
 	        if($keepParam){
@@ -94,22 +94,30 @@ class rex_cronjob_export_cleanup extends rex_cronjob
 		        
 		        foreach ($backupFilesToDelete as $key => $backupFileToDelete) {
 			        
-			        if(!isset($backupFilesToDelete[$key]['delete'])){
+			        if(!isset($backupFilesToDelete[$key]['keep'])){
 				        
-					$value = $backupFileToDelete['diff-' . $paramStr ];
-
-				        if($value > $keepParam ){
-					        
+						$value = $backupFileToDelete['diff-' . $paramStr ];
+						
+				        if($value >= $keepParam ){
 					        if(in_array($value, $keepArr)){
 						        $backupFilesToDelete[$key]['delete'] = $paramStr;
 					        }else{
 						        $keepArr[] = $value;
+						        $backupFilesToDelete[$key]['keep'] = $paramStr;
+						        /*
+						        if(isset($backupFilesToDelete[$key]['delete'])){
+							        unset($backupFilesToDelete[$key]['delete']);
+							    }
+							    */
+						        
 						    }
 					        
 					    }
 				        
 				    }
+					
 
+			        
 			        
 		        }
 		        
@@ -118,10 +126,12 @@ class rex_cronjob_export_cleanup extends rex_cronjob
         
         }
         
+       
+        
 
 
-        //debug
-        //echo '<pre class="dbgPre">' . print_r($backupFilesToDelete,1) . '</pre>';
+        //	debug
+        //	echo '<pre class="dbgPre">' . print_r($backupFilesToDelete,1) . '</pre>';
         
         
         // delete marked files
@@ -130,26 +140,28 @@ class rex_cronjob_export_cleanup extends rex_cronjob
         
         foreach ($backupFilesToDelete as $key => $backupFileToDelete) {
 	        
-		if(isset($backupFilesToDelete[$key]['delete'])){
+	        if(isset($backupFilesToDelete[$key]['delete'])){
+		        
+		        $succ = rex_file::delete($dir . '/' . $backupFileToDelete['file']);
 
-			$succ = rex_file::delete($dir . '/' . $backupFileToDelete['file']);
-
-			$log[] = $backupFileToDelete['file'] . " " . rex_i18n::msg('export_cleanup_deleted') . " (" . rex_i18n::msg('export_cleanup_label_p_' . $backupFilesToDelete[$key]['delete'] ) . ")" ;
-
-			if (!$succ){
-
-				$log[] = "failed!" ;
-				$this->setMessage(implode(", \n", $log));
-				return false;
-			}
-		    } 
+		        
+		        $log[] = $backupFileToDelete['file'] . " " . rex_i18n::msg('export_cleanup_deleted') . " (" . rex_i18n::msg('export_cleanup_label_p_' . $backupFilesToDelete[$key]['delete'] ) . ")" ;
+		        
+		        
+		        if (!$succ){
+	   				
+	   				$log[] = "failed!" ;
+	   				$this->setMessage(implode(", \n", $log));
+	   				return false;
+	   			}
+		    }
 	    }
-
-	if($log){
-		$this->setMessage(implode(", \n", $log));
-	}else{
-		$this->setMessage(rex_i18n::msg('export_cleanup_nothing_to_delete'));
-	}
+        
+		if($log){
+			$this->setMessage(implode(", \n", $log));
+		}else{
+			$this->setMessage(rex_i18n::msg('export_cleanup_nothing_to_delete'));
+		}
         
         
         return true;
