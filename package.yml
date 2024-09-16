@@ -1,6 +1,6 @@
 package: export_cleanup
 version: '0.2'
-author: 'Matthias Weiß'
+author: 'Friends Of REDAXO'
 supportpage: www.redaxo.org/de/forum/
 
 requires:
